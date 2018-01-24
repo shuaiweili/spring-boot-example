@@ -4,9 +4,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.boot.autoconfigure.MybatisProperties;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -23,13 +20,6 @@ import javax.sql.DataSource;
 @MapperScan(value = "com.git.lee.spring.boot.example.mapper.first", sqlSessionFactoryRef = "firstSqlSessionFactory")
 @EnableConfigurationProperties(MybatisProperties.class)
 public class FirstDataSourceConfig {
-    @Autowired
-    @Qualifier("firstDbProperties")
-    private DbProperties dbProperties;
-
-    @Autowired
-    @Qualifier("firstDataSource")
-    private DataSource dataSource;
 
     private MybatisProperties mybatisProperties;
 
@@ -37,21 +27,11 @@ public class FirstDataSourceConfig {
         this.mybatisProperties = properties;
     }
 
-    @Bean(name = "firstDbProperties")
-    @ConfigurationProperties(prefix = "first.datasource")
-    public DbProperties getDbProperties() {
-        return new DbProperties();
-    }
-
     @Bean(name = "firstDataSource")
     @Primary
+    @ConfigurationProperties(prefix = "first.datasource")
     public DataSource getDataSource() {
-        DataSourceProperties properties = new DataSourceProperties();
-        properties.setDriverClassName(dbProperties.getDriverClassName());
-        properties.setUrl(dbProperties.getUrl());
-        properties.setUsername(dbProperties.getUsername());
-        properties.setPassword(dbProperties.getPassword());
-        return properties.initializeDataSourceBuilder().build();
+        return new org.apache.tomcat.jdbc.pool.DataSource();
     }
 
 
@@ -59,7 +39,7 @@ public class FirstDataSourceConfig {
     @Primary
     public SqlSessionFactory getSqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource);
+        sessionFactory.setDataSource(getDataSource());
         sessionFactory.setMapperLocations(mybatisProperties.resolveMapperLocations());
         sessionFactory.setTypeAliasesPackage(mybatisProperties.getTypeAliasesPackage());
         sessionFactory.setConfiguration(SqlSessionFactoryConfigUtil.clone(mybatisProperties.getConfiguration()));
