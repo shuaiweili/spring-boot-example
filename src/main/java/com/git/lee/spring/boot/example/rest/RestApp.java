@@ -8,10 +8,6 @@ import org.springframework.boot.web.servlet.ErrorPage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 
-/**
- * @author LISHUAIWEI
- * @date 2017/11/13 16:07
- */
 @SpringBootApplication
 public class RestApp {
 

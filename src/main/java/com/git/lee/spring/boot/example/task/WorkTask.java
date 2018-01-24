@@ -13,19 +13,19 @@ import java.util.Date;
  * @author LISHUAIWEI
  * @date 2017/11/7 11:04
  */
-@Component
+//@Component
 public class WorkTask implements SchedulingConfigurer {
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {
-        scheduledTaskRegistrar.addTriggerTask(() -> {
-            //run task
-            System.out.println("run task at " + new Date().toString());
-        }, triggerContext -> {
-            //config trigger cron
-            CronTrigger trigger = new CronTrigger(getCron());
-            return trigger.nextExecutionTime(triggerContext);
-        });
+//        scheduledTaskRegistrar.addTriggerTask(() -> {
+//            //run task
+//            System.out.println("run task at " + new Date().toString());
+//        }, triggerContext -> {
+//            //config trigger cron
+//            CronTrigger trigger = new CronTrigger(getCron());
+//            return trigger.nextExecutionTime(triggerContext);
+//        });
     }
 
     private String getCron() {

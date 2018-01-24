@@ -3,3 +3,6 @@
   - restful api
   - thymeleaf template
   - vue example
+  - login security
+  - mybatis
+  - multiple datasources
