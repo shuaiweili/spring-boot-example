@@ -6,3 +6,4 @@
   - login security
   - mybatis
   - multiple datasources
+  - transaction manager
