@@ -10,4 +10,10 @@ import lombok.Data;
 public class Group {
     private int id;
     private String name;
+
+    public Group(){}
+
+    public Group(String name) {
+        this.name = name;
+    }
 }

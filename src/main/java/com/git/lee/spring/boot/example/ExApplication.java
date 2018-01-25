@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.git.lee.spring.boot.example.mapper")
+//@MapperScan("com.git.lee.spring.boot.example.mapper")
 public class ExApplication {
 
     public static void main(String[] args) {

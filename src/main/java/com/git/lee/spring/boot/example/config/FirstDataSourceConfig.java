@@ -1,6 +1,7 @@
 package com.git.lee.spring.boot.example.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.transaction.TransactionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.boot.autoconfigure.MybatisProperties;
@@ -9,6 +10,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
@@ -16,9 +20,10 @@ import javax.sql.DataSource;
  * @author LISHUAIWEI
  * @date 2018/1/24 15:17
  */
-@Configuration
-@MapperScan(value = "com.git.lee.spring.boot.example.mapper.first", sqlSessionFactoryRef = "firstSqlSessionFactory")
-@EnableConfigurationProperties(MybatisProperties.class)
+//@Configuration
+//@MapperScan(value = "com.git.lee.spring.boot.example.mapper.first", sqlSessionFactoryRef = "firstSqlSessionFactory")
+//@EnableConfigurationProperties(MybatisProperties.class)
+//@EnableTransactionManagement
 public class FirstDataSourceConfig {
 
     private MybatisProperties mybatisProperties;
@@ -44,6 +49,12 @@ public class FirstDataSourceConfig {
         sessionFactory.setTypeAliasesPackage(mybatisProperties.getTypeAliasesPackage());
         sessionFactory.setConfiguration(SqlSessionFactoryConfigUtil.clone(mybatisProperties.getConfiguration()));
         return sessionFactory.getObject();
+    }
+
+    @Primary
+    @Bean(name = "firstTransactionManager")
+    public PlatformTransactionManager transactionManager() {
+        return new DataSourceTransactionManager(getDataSource());
     }
 
 }
